@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import (QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QPushButton, QComboBox, QLineEdit, QHBoxLayout, QGroupBox, QLabel, QCompleter)
-from PyQt5.QtGui import QColor, QPalette  
-from PyQt5.QtCore import Qt 
+from PyQt5.QtGui import QColor, QPalette
+from PyQt5.QtCore import Qt, QPropertyAnimation, QRect
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from database import Database
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, server, database, username, password):
         super().__init__()
         self.setWindowTitle("Contabilidad de Empresas")
         self.setGeometry(100, 100, 1200, 900)
@@ -15,15 +15,17 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.central_widget)
         self.layout = QVBoxLayout(self.central_widget)
 
-        panel_busqueda = QGroupBox("Búsqueda de Empresas")
+        self.database = Database(server, database, username, password)
+
+        self.panel_busqueda = QGroupBox("Búsqueda de Empresas")  
         layout_busqueda = QVBoxLayout()
         self.barra_busqueda_empresas = QLineEdit()
         self.barra_busqueda_empresas.setPlaceholderText("Buscar empresa por nombre...")
         layout_busqueda.addWidget(self.barra_busqueda_empresas)
         self.combo_empresas = QComboBox()
         layout_busqueda.addWidget(self.combo_empresas)
-        panel_busqueda.setLayout(layout_busqueda)
-        self.layout.addWidget(panel_busqueda)
+        self.panel_busqueda.setLayout(layout_busqueda)
+        self.layout.addWidget(self.panel_busqueda)
 
         panel_filtros = QGroupBox("Filtros")
         layout_filtros = QHBoxLayout()
@@ -53,7 +55,6 @@ class MainWindow(QMainWindow):
         self.canvas = FigureCanvas(self.figure)
         self.layout.addWidget(self.canvas)
 
-        self.database = Database()
         self.clientes = self.database.obtener_clientes()
         self.cargar_empresas()
 
@@ -65,25 +66,33 @@ class MainWindow(QMainWindow):
         self.btn_grafico_lineas.clicked.connect(self.generar_grafico_lineas)
         self.btn_grafico_pastel.clicked.connect(self.generar_grafico_pastel)
 
+        self.animar_entrada()
+
+    def animar_entrada(self):
+        self.animation = QPropertyAnimation(self.panel_busqueda, b"geometry") 
+        self.animation.setDuration(1000)
+        self.animation.setStartValue(QRect(-300, 0, 300, 100))
+        self.animation.setEndValue(QRect(0, 0, 300, 100))
+        self.animation.start()
+
     def configurar_autocompletado(self):
         nombres_empresas = self.clientes['Nombre'].tolist()
         completer = QCompleter(nombres_empresas, self)
-        completer.setCaseSensitivity(False) 
-        completer.setFilterMode(Qt.MatchStartsWith)  
+        completer.setCaseSensitivity(False)
+        completer.setFilterMode(Qt.MatchStartsWith)
 
-        
         completer.popup().setStyleSheet("""
             QListView {
-                background-color: white;
-                color: black;
-                border: 1px solid #ccc;
+                background-color: #34495e;
+                color: #ecf0f1;
+                border: 2px solid #2c3e50;
                 border-radius: 5px;
             }
             QListView::item {
                 padding: 5px;
             }
             QListView::item:hover {
-                background-color: #4CAF50;
+                background-color: #3498db;
                 color: white;
             }
         """)

@@ -1,6 +1,6 @@
 /* Estilos generales */
 QMainWindow {
-    background-color: #f0f0f0;
+    background-color: #2c3e50;
     font-family: 'Segoe UI', sans-serif;
 }
 
@@ -9,23 +9,25 @@ QWidget {
 }
 
 QLineEdit {
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    border: 2px solid #34495e;
     border-radius: 5px;
     font-size: 14px;
-    background-color: white;
+    background-color: #34495e;
+    color: #ecf0f1;
 }
 
 QComboBox {
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    border: 2px solid #34495e;
     border-radius: 5px;
     font-size: 14px;
-    background-color: white;
+    background-color: #34495e;
+    color: #ecf0f1;
 }
 
 QPushButton {
-    background-color: #4CAF50;
+    background-color: #3498db;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
@@ -34,17 +36,19 @@ QPushButton {
 }
 
 QPushButton:hover {
-    background-color: #45a049;
+    background-color: #2980b9;
 }
 
 QTableWidget {
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: #34495e;
+    border: 2px solid #2c3e50;
     font-size: 14px;
+    color: #ecf0f1;
+    border-color: #2c3e50;
 }
 
 QHeaderView::section {
-    background-color: #4CAF50;
+    background-color: #3498db;
     color: white;
     padding: 10px;
     font-size: 14px;
@@ -52,25 +56,26 @@ QHeaderView::section {
 }
 
 QHeaderView::section:hover {
-    background-color: #45a049;
+    background-color: #2980b9;
 }
 
 /* Estilos para el gráfico */
 FigureCanvas {
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: #34495e;
+    border: 2px solid #2c3e50;
     border-radius: 5px;
 }
 
 /* Estilos para los paneles */
 QGroupBox {
-    border: 1px solid #ccc;
+    border: 2px solid #34495e;
     border-radius: 5px;
     margin-top: 10px;
     padding-top: 15px;
     font-size: 16px;
     font-weight: bold;
-    background-color: white;
+    background-color: #34495e;
+    color: #ecf0f1;
 }
 
 QGroupBox::title {
@@ -80,19 +85,32 @@ QGroupBox::title {
 
 /* Estilos para el autocompletado */
 QCompleter {
-    background-color: white;
-    color: black;
-    border: 1px solid #ccc;
+    background-color: #34495e;
+    color: #ecf0f1;
+    border: 2px solid #2c3e50;
     border-radius: 5px;
 }
 
 QCompleter::item {
     padding: 5px;
-    background-color: white;
-    color: black;
+    background-color: #34495e;
+    color: #ecf0f1;
 }
 
 QCompleter::item:hover {
-    background-color: #4CAF50;
+    background-color: #3498db;
     color: white;
+}
+
+/* Animaciones */
+QPushButton {
+    transition: background-color 0.3s ease;
+}
+
+QLineEdit {
+    transition: border-color 0.3s ease;
+}
+
+QComboBox {
+    transition: border-color 0.3s ease;
 }
