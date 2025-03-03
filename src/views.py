@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QPushButton, QComboBox, QLineEdit, QHBoxLayout, QGroupBox, QLabel, QCompleter)
-from PyQt5.QtGui import QColor, QPalette  # Importar para ajustar colores
-from PyQt5.QtCore import Qt  # Importar Qt para usar MatchStartsWith
+from PyQt5.QtGui import QColor, QPalette  
+from PyQt5.QtCore import Qt 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from database import Database
@@ -11,12 +11,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Contabilidad de Empresas")
         self.setGeometry(100, 100, 1200, 900)
 
-        # Widget central y layout
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.layout = QVBoxLayout(self.central_widget)
 
-        # Panel de búsqueda
         panel_busqueda = QGroupBox("Búsqueda de Empresas")
         layout_busqueda = QVBoxLayout()
         self.barra_busqueda_empresas = QLineEdit()
@@ -27,7 +25,6 @@ class MainWindow(QMainWindow):
         panel_busqueda.setLayout(layout_busqueda)
         self.layout.addWidget(panel_busqueda)
 
-        # Panel de filtros
         panel_filtros = QGroupBox("Filtros")
         layout_filtros = QHBoxLayout()
         self.combo_anios = QComboBox()
@@ -38,7 +35,6 @@ class MainWindow(QMainWindow):
         panel_filtros.setLayout(layout_filtros)
         self.layout.addWidget(panel_filtros)
 
-        # Panel de gráficos
         panel_graficos = QGroupBox("Gráficos")
         layout_graficos = QHBoxLayout()
         self.btn_grafico_barras = QPushButton("Gráfico de Barras")
@@ -50,24 +46,19 @@ class MainWindow(QMainWindow):
         panel_graficos.setLayout(layout_graficos)
         self.layout.addWidget(panel_graficos)
 
-        # Tabla para mostrar transacciones
         self.table = QTableWidget()
         self.layout.addWidget(self.table)
 
-        # Canvas para el gráfico
         self.figure = Figure()
         self.canvas = FigureCanvas(self.figure)
         self.layout.addWidget(self.canvas)
 
-        # Cargar datos y empresas
         self.database = Database()
         self.clientes = self.database.obtener_clientes()
         self.cargar_empresas()
 
-        # Configurar autocompletado
         self.configurar_autocompletado()
 
-        # Conectar señales
         self.combo_empresas.currentIndexChanged.connect(self.cargar_anios)
         self.btn_cargar.clicked.connect(self.cargar_transacciones)
         self.btn_grafico_barras.clicked.connect(self.generar_grafico_barras)
@@ -77,10 +68,10 @@ class MainWindow(QMainWindow):
     def configurar_autocompletado(self):
         nombres_empresas = self.clientes['Nombre'].tolist()
         completer = QCompleter(nombres_empresas, self)
-        completer.setCaseSensitivity(False)  # No distinguir mayúsculas/minúsculas
-        completer.setFilterMode(Qt.MatchStartsWith)  # Filtrar desde el inicio del texto
+        completer.setCaseSensitivity(False) 
+        completer.setFilterMode(Qt.MatchStartsWith)  
 
-        # Ajustar el estilo del QCompleter
+        
         completer.popup().setStyleSheet("""
             QListView {
                 background-color: white;
